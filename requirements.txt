@@ -1,0 +1,5 @@
+werkzeug.security
+secrets
+mysql.connector
+Flask
+re 
