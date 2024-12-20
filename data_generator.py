@@ -1,7 +1,7 @@
 import mysql.connector
 from mysql.connector import Error
 def connect_to_database():
-    file = open("/data_folder/dbdata.txt","r")
+    file = open("Project-TalkDB\data_folder\dbdata.txt","r")
     data = file.read()
     data = eval(data)
     file.close()
