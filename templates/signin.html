@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/signin.css"> <!-- Link to your CSS file -->
+    <title>Sign In Page</title>
+    <link rel="icon" href="/static/images/T.jpg" type="image/png">
+</head>
+<body>
+    <div class="container">
+        <div class="theme-toggle-wrapper"><button class="theme-toggle" onclick="toggleTheme()"><span class="toggle-circle"></span><span class="sun-icon">☀️</span><span class="moon-icon">🌙</span></button></div>
+        <!-- Logo Section -->
+        <div class="logo">
+            <img class="light-logo" src="/static/images/talkdb logo w.png" alt="TalkDB Logo">
+            <img class="dark-logo" src="/static/images/talkdb logo b.png" alt="TalkDB Dark Logo" style="display: none;">
+        </div>
+        
+        <!-- Greeting -->
+        <h2>Hello, User</h2>
+        
+        <!-- Sign-In Form -->
+        <form action="/submit" method="post">
+            <div class="input-wrapper">
+                <input type="text" name="username" required placeholder=" " id="email-input">
+                <label>Email address</label>
+            </div>
+            <div class="input-wrapper">
+                <input type="password" name="password" required placeholder=" " id="password-input">
+                <label>Password</label>
+            </div>
+            <input type="submit" value="Continue">
+        </form>
+        
+        <!-- Social Sign-In Buttons -->
+        <div class="social-btns">
+            <a href="https://accounts.google.com/signin" target="_blank"><button class="social-btn google-btn"><img src="/static/images/google.png" alt="Google Logo"></button></a>
+            <a href="https://account.apple.com/" target="_blank"><button class="social-btn apple-btn"><img src="/static/images/apple.png" alt="Apple Logo"></button></a>
+            <a href="https://www.facebook.com/login" target="_blank"><button class="social-btn facebook-btn"><img src="/static/images/facebook.png" alt="Facebook Logo"></button></a>
+        </div>
+        
+        <!-- Signup Link -->
+        <p>Don't have an account? 
+            <a href="/signup" style="color: green; text-decoration: none;">Sign up!</a>
+        </p>
+    </div>
+    <script src="/static/js/signin.js"></script>
+</body>
+</html>

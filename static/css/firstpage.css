@@ -1,0 +1,278 @@
+/* General Styles */
+* { box-sizing: border-box; }
+body {
+    font-family: Arial, sans-serif; margin: 0; padding: 0;
+    display: flex; justify-content: center; align-items: flex-end;
+    height: 100vh; overflow-x: hidden; position: relative;
+    background-color: var(--body-bg); color: var(--text-color);
+    transition: background-color 0.3s, color 0.3s;
+}
+a, button { cursor: pointer; }
+img { cursor: pointer; }
+
+/* Theme Variables */
+:root {
+    --container-bg: white; --text-color: black; --side-panel-bg: rgba(240, 240, 240, 0.8);
+    --side-panel-hover: #ddd; --body-bg: #f0f0f0; --toggle-bg: #f1c40f; --toggle-circle-bg: white;
+}
+[data-theme="dark"] {
+    --container-bg: #1a1a1a; --text-color: white; --side-panel-bg: rgba(51, 51, 51, 0.8);
+    --side-panel-hover: #444; --body-bg: #2e2e2e; --toggle-bg: #000; --toggle-circle-bg: white;
+}
+
+/* Side Panel */
+.side-panel {
+    height: 100%; width: 0; position: fixed; top: 0; left: 0; z-index: 999;
+    background-color: var(--side-panel-bg); overflow-y: auto;
+    transition: width 0.3s; box-shadow: 5px 0 5px rgba(0, 0, 0, 0.1);
+}
+.side-panel a {
+    padding: 8px 32px; font-size: 25px; text-decoration: none;
+    display: block; transition: 0.3s; color: var(--text-color);
+}
+.side-panel a:hover { background-color: var(--side-panel-hover); }
+.resize-handle {
+    width: 10px; height: 100%; position: absolute; right: -5px; z-index: 10;
+    cursor: ew-resize; background-color: var(--text-color); transition: background-color 0.3s;
+}
+
+/* Query Input */
+.query-input {
+    width: 90%; padding: 10px; position: absolute; bottom: 20px; left: 50%;
+    transform: translateX(-50%); border: 2px solid #ccc; border-radius: 15px;
+    font-size: 16px; outline: none; min-height: 40px; max-height: 160px;
+    overflow-y: auto; transition: border-color 0.3s;
+}
+.query-input:focus { border-color: #66afe9; }
+.query-input::-webkit-scrollbar { width: 12px; }
+.query-input::-webkit-scrollbar-thumb { background-color: var(--text-color); border-radius: 10px; }
+.query-input.highlight { animation: red-highlight 1s; }
+@keyframes red-highlight {
+    0% { border-color: red; }
+    100% { border-color: #ccc; }
+}
+
+/* Theme Toggle */
+.theme-toggle-wrapper { position: absolute; top: 20px; right: 20px; }
+.theme-toggle {
+    display: flex; align-items: center; justify-content: center;
+    background-color: var(--toggle-bg); width: 60px; height: 30px;
+    border-radius: 25px; border: none; position: relative;
+}
+.toggle-circle {
+    width: 25px; height: 25px; background-color: var(--toggle-circle-bg);
+    border-radius: 50%; position: absolute; left: 2.5px; top: 2.5px;
+    transition: transform 0.3s;
+}
+[data-theme="dark"] .toggle-circle { transform: translateX(30px); background-color: #FFD700; }
+.sun-icon, .moon-icon {
+    position: absolute; font-size: 18px; color: var(--text-color);
+}
+.sun-icon { left: 10px; display: none; }
+[data-theme="dark"] .sun-icon { display: block; }
+[data-theme="dark"] .moon-icon { display: none; }
+
+/* Buttons */
+.send-button, .image-toggle {
+    width: 50px; position: fixed; z-index: 1000;
+}
+.send-button { right: 20px; bottom: 20px; }
+.image-toggle { top: 20px; left: 20px; }
+
+/* Settings Panel */
+.settings-button { position: absolute; top: 20px; right: 80px; font-size: 24px; border: none; }
+.settings-panel {
+    position: absolute; top: 50px; right: 80px; z-index: 1000;
+    padding: 10px; display: none; border-radius: 8px;
+    background-color: var(--body-bg); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.settings-panel button {
+    width: 100%; border: none; padding: 8px 16px; border-radius: 5px;
+    background-color: #067e06; color: rgb(244, 241, 241); font-size: 14px;
+}
+.settings-panel button:hover { background-color: #2e6a93; }
+.toast-panel {
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    width: 300px; padding: 20px;
+    background-color: #fff; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 8px; display: none; flex-direction: column;
+}
+.toast-panel.active { display: flex; }
+.toast-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 10px;
+}
+.toast-header p {
+    margin: 0; font-size: 16px; font-weight: bold; color: #333;
+}
+.toast-header .close-btn {
+    cursor: pointer; font-size: 18px; color: #888; font-weight: bold;
+}
+.toast-header .close-btn:hover { color: #000; }
+.toast-body {
+    display: flex; flex-direction: column;
+    gap: 10px;
+}
+.toast-body input {
+    width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px;
+    font-size: 14px; outline: none;
+}
+.toast-body input:focus { border-color: #66afe9; }
+.toast-footer button {
+    padding: 10px; background-color: #4CAF50; color: #fff; border: none;
+    border-radius: 5px; font-size: 14px; cursor: pointer;
+}
+.toast-footer button:hover { background-color: #45a049; }
+.treeview {
+    list-style-type: none;
+    padding-left: 20px;
+}
+.treeview li {
+    margin: 10px 0;
+}
+.treeview .db, .treeview .table, .treeview .column {
+    cursor: pointer;
+}
+/* Logo Styles */
+.theme-logos {
+    position: absolute;
+    top: 20px; /* Position the logo at the top */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000; /* Ensure the logos are on top of other elements */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo-light, .logo-dark {
+    display: none; /* Initially hide both logos */
+    width: 200px; /* Increased width to make it bigger */
+    height: auto; /* Maintain aspect ratio */
+    transition: opacity 0.3s ease; /* Smooth transition for logo appearance */
+}
+
+/* Dark Theme: Show dark logo */
+[data-theme="dark"] .logo-dark {
+    display: block;
+    opacity: 1;
+}
+
+/* Light Theme: Show light logo */
+[data-theme="light"] .logo-light {
+    display: block;
+    opacity: 1;
+}
+
+/* Optional: Add a fade effect for smooth transitions */
+[data-theme="dark"] .logo-light,
+[data-theme="light"] .logo-dark {
+    opacity: 1;
+}
+
+/* Additional style for logos (for both light and dark) */
+.theme-logos img {
+    filter: drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.3)); /* Add shadow for better visibility */
+}
+.dynamic-text-box {
+    position: absolute;
+    bottom: 110px; /* Slightly above the text area */
+    left: 75%; /* Slightly right of the text area */
+    transform: translateX(-50%);
+    width: 700px; /* Static width */
+    height: 100px; /* Static height */
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    background-color: var(--container-bg);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    overflow: hidden; /* Prevent overflow of long text */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, color 0.3s;
+}
+.dynamic-text-box2 {
+    position: absolute;
+    top: 150px; /* Slightly above the text area */
+    right: 6%; /* Slightly right of the text area */
+    transform: translateX(-50%);
+    width: 1000px; /* Static width */
+    height: 100px; /* Static height */
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    background-color: var(--container-bg);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    overflow: hidden; /* Prevent overflow of long text */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, color 0.3s;
+}
+.dynamic-text-box3 {
+    position: absolute;
+    top: 260px; /* Slightly above the text area */
+    right: 32%; /* Slightly right of the text area */
+    transform: translateX(-50%);
+    width: 1100px; /* Static width */
+    height: 350px; /* Static height */
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    background-color: var(--container-bg);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    overflow: hidden; /* Prevent overflow of long text */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, color 0.3s;
+}
+.dynamic-text-box3 {
+    height: 300px; /* Fixed height */
+    width: 500px;  /* Fixed width */
+    overflow: scroll; /* Always show scrollbars */
+    border: 1px solid #ccc; /* Adds a border for clarity */
+}
+
+table {
+    width: 100%; /* Ensures table spans the full width of the container */
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+.mysql-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1em;
+    font-size: 1rem;
+    text-align: left;
+}
+.mysql-table th, .mysql-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+.mysql-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+.mysql-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+.mysql-table tr:hover {
+    background-color: #f1f1f1;
+}
