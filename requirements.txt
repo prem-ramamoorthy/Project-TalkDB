@@ -1,5 +1,3 @@
-werkzeug.security
-secrets
-mysql.connector
-Flask
-re 
+flask
+werkzeug
+mysql-connector-python
