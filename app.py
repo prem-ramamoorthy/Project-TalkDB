@@ -69,56 +69,67 @@ def signin():
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
+    global db_password , db_host , db_username
     if request.method == 'POST':
+        db_host = request.form.get('db_host')
+        db_password = request.form.get('db_password')
+        db_username = request.form.get('db_username')
         first_name = request.form.get('first_name')
         last_name = request.form.get('last_name')
         email = request.form.get("email")
         password = request.form.get('password')
         repassword = request.form.get('retype_password')
-        db_username = request.form.get('db_username')
-        db_password = request.form.get('db_password')
-        db_host = request.form.get('db_host')
-
         if not all([first_name, last_name, email, password, repassword]):
             flash("All fields are required!", category="error")
             return redirect('/signup')
-
         if password != repassword:
             flash("Passwords do not match!", category="error")
             return redirect('/signup')
-
         if not is_valid_password(password):
             flash("Password must meet complexity requirements.", category="error")
             return redirect('/signup')
-
         conn = connect_to_database()
         if conn:
             try:
                 cursor = conn.cursor()
-                try :
-                    cursor.execute("Create database talkdb ;")
-                except Exception as e : 
-                    pass
+                cursor.execute("CREATE DATABASE IF NOT EXISTS talkdb;")
                 cursor.execute("USE talkdb;")
-                try : 
-                    cursor.execute("CREATE TABLE user_details (email VARCHAR(100) NOT NULL PRIMARY KEY,firstname VARCHAR(100),lastname VARCHAR(100));")
-                    cursor.execute("CREATE TABLE login_details (email VARCHAR(100) NOT NULL PRIMARY KEY,password VARCHAR(255),FOREIGN KEY (email) REFERENCES user_details(email));")
-                except Exception as e :
-                    pass
+                cursor.execute(
+                    "CREATE TABLE IF NOT EXISTS user_details ("
+                    "email VARCHAR(100) NOT NULL PRIMARY KEY,"
+                    "firstname VARCHAR(100),"
+                    "lastname VARCHAR(100)"
+                    ");"
+                )
+                cursor.execute(
+                    "CREATE TABLE IF NOT EXISTS login_details ("
+                    "email VARCHAR(100) NOT NULL PRIMARY KEY,"
+                    "password VARCHAR(255),"
+                    "FOREIGN KEY (email) REFERENCES user_details(email)"
+                    ");"
+                )
                 hashed_password = generate_password_hash(password)
-                cursor.execute("INSERT INTO user_details (email, firstname, lastname) VALUES (%s, %s, %s)",
-                               (email, first_name, last_name))
-                cursor.execute("INSERT INTO login_details (email, password) VALUES (%s, %s)", (email, hashed_password))
+                cursor.execute(
+                    "INSERT INTO user_details (email, firstname, lastname) VALUES (%s, %s, %s)",
+                    (email, first_name, last_name)
+                )
+                cursor.execute(
+                    "INSERT INTO login_details (email, password) VALUES (%s, %s)",
+                    (email, hashed_password)
+                )
                 conn.commit()
                 flash("Signup successful! Please log in.", category="success")
                 return redirect('/')
+            except mysql.connector.Error as e:
+                flash(f"Database error: {e}", category="error")
+            except Exception as e:
+                flash(f"An error occurred: {e}", category="error")
             finally:
                 conn.close()
-        flash("Database connection error!", category="error")
-        return redirect('/signup')
-
+        else:
+            flash("Database connection error!", category="error")
+            return redirect('/signup')
     return render_template('signup.html')
-
 
 @app.route('/frontpage')
 def frontpage():
