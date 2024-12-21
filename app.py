@@ -8,7 +8,6 @@ try :
 except Exception as e :
     pass
 from werkzeug.security import generate_password_hash, check_password_hash
-import pandas as pd
 
 main_data = {}
 app = Flask(__name__)
