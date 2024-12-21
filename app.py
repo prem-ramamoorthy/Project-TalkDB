@@ -3,7 +3,10 @@ import re
 import subprocess as s
 import secrets
 import mysql.connector
-import data_generator as dg
+try :
+    import data_generator as dg
+except Exception as e :
+    pass
 from werkzeug.security import generate_password_hash, check_password_hash
 import pandas as pd
 
